@@ -14,7 +14,7 @@ struct ContentView: View {
     
     var body: some View {
         ZStack {
-            BackgroundView(isNight: $isNight)
+            BackgroundView(isNight: isNight)
             
             VStack {
                 CityTextView(cityName: "Cupertino, CA")
@@ -32,7 +32,7 @@ struct ContentView: View {
                 Button {
                     isNight.toggle()
                 }  label: {
-                    WeatherButton(title: "Change Day Time", backGroundColor: .blue, foreGroundColor: .white)
+                    WeatherButton(title: "Change Day Time", backGroundColor: .white, foreGroundColor: .blue)
                 }
                 Spacer()
             }
@@ -71,15 +71,19 @@ struct WeatherDayView: View {
 
 struct BackgroundView: View {
     
-    @Binding var isNight: Bool
+    var isNight: Bool
     
     var body: some View {
-        LinearGradient(
-            gradient: Gradient(colors: [isNight ? .black : .blue,isNight ? .gray : Color("lightBlue")]),
-            startPoint: .topLeading,
-            endPoint: .bottomTrailing)
+//        LinearGradient(
+//            gradient: Gradient(colors: [isNight ? .black : .blue,isNight ? .gray : Color("lightBlue")]),
+//            startPoint: .topLeading,
+//            endPoint: .bottomTrailing)
+//
+//        .edgesIgnoringSafeArea(.all)
         
-        .edgesIgnoringSafeArea(.all)
+        ContainerRelativeShape()
+            .fill(isNight ? Color.black.gradient : Color.blue.gradient)
+            .ignoresSafeArea()
     }
 }
 
@@ -104,7 +108,7 @@ struct MainWeatherStatusView: View {
     var body: some View {
         VStack(spacing: 8) {
             Image(systemName: imageName)
-                .renderingMode(.original)
+                .renderingMode(.original)// to get multi colour
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 180, height: 180)
